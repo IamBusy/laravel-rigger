@@ -16,6 +16,11 @@
     "prettus/l5-repository": "^2.6",
     "spatie/laravel-permission": "^2.7"
   },
+  "autoload": {
+    "psr-4": {
+      "WilliamWei\\LaravelRigger\\": "src/"
+    }
+  },
   "extra": {
     "laravel": {
       "providers": [
