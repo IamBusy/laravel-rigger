@@ -12,6 +12,7 @@ namespace WilliamWei\LaravelRigger\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use WilliamWei\LaravelRigger\Models\Entity;
+use WilliamWei\LaravelRigger\Repositories\EntityRepository;
 
 class RiggerServiceProvider extends ServiceProvider
 {
@@ -27,7 +28,7 @@ class RiggerServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->entityNameSpace = 'App\\'.$this->app['config']->get('rigger.paths.models', 'Entities').'\\';
-        $this->entityNameSpace = 'App\\'.$this->app['config']->get('rigger.paths.repository', 'Entities').'\\';
+        $this->repositoryNameSpace = 'App\\'.$this->app['config']->get('rigger.paths.repository', 'Entities').'\\';
         foreach ($this->app['config']->get('entities', []) as $name => $config) {
             $className = Str::ucfirst($name);
             $this->bindEntity($className, $config);
@@ -60,13 +61,12 @@ class RiggerServiceProvider extends ServiceProvider
     }
 
     protected function bindRepository($name, $config) {
-        $className = $this->r.$name;
-        $this->app->bindIf('App\Repositories\\'.$name.'Repository', function ($app, $parameters) use ($name, $config) {
-            $repository = new EntityRepositoryEloquent($app);
-            $repository->setModelName('App\Entities\\'.$name);
+        $className = $this->repositoryNameSpace.$name.'Repository';
+        $this->app->bindIf($className, function ($app, $parameters) use ($name, $config) {
+            $repository = new EntityRepository($app);
+            $repository->setModelName($this->entityNameSpace.$name);
             $repository->resetModel();
             return $repository;
         });
     }
-
 }

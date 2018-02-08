@@ -22,36 +22,21 @@ class LaravelRiggerProvider extends ServiceProvider
     {
         // Register bindings.
         $this->registerBindings();
-        // Config path.
-        $rigger_path = __DIR__ . '/../../../config/rigger.php';
-        $entities_path = __DIR__ . '/../../../config/entities.php';
+
         // Merge config.
-        $this->mergeConfigFrom($rigger_path, 'rigger');
-        $this->mergeConfigFrom($entities_path, 'entities');
+        $this->mergeConfigFrom(__DIR__ . '/../../../config/rigger.php', 'rigger');
+        $this->mergeConfigFrom(__DIR__ . '/../../../config/entities.php', 'entities');
     }
 
     /**
-     * Register the bindings.
+     * 在注册后进行服务的启动。
+     *
+     * @return void
      */
-    protected function registerBindings()
-    {
-        // FileSystem.
-        $this->app->instance('FileSystem', new Filesystem());
-        // Composer.
-        $this->app->bind('Composer', function ($app)
-        {
-            return new Composer($app['FileSystem']);
-        });
-        // Repository creator.
-        $this->app->singleton('RepositoryCreator', function ($app)
-        {
-            return new RepositoryCreator($app['FileSystem']);
-        });
-        // Criteria creator.
-        $this->app->singleton('CriteriaCreator', function ($app)
-        {
-            return new CriteriaCreator($app['FileSystem']);
-        });
+    public function boot() {
+        $this->publishes([
+            __DIR__.'/../../../config/rigger.php' => config_path('rigger.php'),
+            __DIR__.'/../../../config/entities.php' => config_path('entities.php'),
+        ]);
     }
-
 }

@@ -27,6 +27,8 @@ class RouterServiceProvider extends ServiceProvider
             $this->mapDynamicRoutes();
         }
     }
+
+
     protected function mapDynamicRoutes() {
         $config = $this->app['config'];
         $controllerNameSpace = 'App\\'.$config->get('rigger.paths.controllers').'\\';
@@ -43,7 +45,5 @@ class RouterServiceProvider extends ServiceProvider
                     }
                 }
             });
-
-
     }
 }
