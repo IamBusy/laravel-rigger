@@ -20,12 +20,9 @@ class LaravelRiggerProvider extends ServiceProvider
      */
     public function register()
     {
-        // Register bindings.
-        $this->registerBindings();
-
         // Merge config.
-        $this->mergeConfigFrom(__DIR__ . '/../../../config/rigger.php', 'rigger');
-        $this->mergeConfigFrom(__DIR__ . '/../../../config/entities.php', 'entities');
+        $this->mergeConfigFrom(__DIR__ . '/../../config/rigger.php', 'rigger');
+        $this->mergeConfigFrom(__DIR__ . '/../../config/entities.php', 'entities');
     }
 
     /**
@@ -35,8 +32,8 @@ class LaravelRiggerProvider extends ServiceProvider
      */
     public function boot() {
         $this->publishes([
-            __DIR__.'/../../../config/rigger.php' => config_path('rigger.php'),
-            __DIR__.'/../../../config/entities.php' => config_path('entities.php'),
+            __DIR__.'/../../config/rigger.php' => config_path('rigger.php'),
+            __DIR__.'/../../config/entities.php' => config_path('entities.php'),
         ]);
     }
 }
