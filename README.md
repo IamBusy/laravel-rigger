@@ -19,40 +19,21 @@ Publish entity config is necessary:
 php artisan vendor:publish --provider "WilliamWei\LaravelRigger\Providers\LaravelRiggerProvider"
 ```
 
-Now, register the routes in `AuthServiceProvider`:
+Now, register the routes in `RouteServiceProvider`:
 
 ```php
-<?php
-
-namespace App\Providers;
-
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Laravel\Passport\Passport;
-use WilliamWei\LaravelRigger\Rigger;
-
-class AuthServiceProvider extends ServiceProvider
+/**
+ * Define the routes for the application.
+ *
+ * @return void
+ */
+public function map()
 {
-    /**
-     * The policy mappings for the application.
-     *
-     * @var array
-     */
-    protected $policies = [
-        'App\Model' => 'App\Policies\ModelPolicy',
-    ];
+    $this->mapApiRoutes();
 
-    /**
-     * Register any authentication / authorization services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        $this->registerPolicies();
-        
-        Rigger::routes();
-    }
+    $this->mapWebRoutes();
+
+    Rigger::routes();
 }
 
 ```
