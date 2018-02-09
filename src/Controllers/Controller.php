@@ -10,6 +10,9 @@ namespace WilliamWei\LaravelRigger\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Collection;
+use League\Fractal\TransformerAbstract;
+use WilliamWei\LaravelRigger\Transformers\Transformer;
 
 
 class Controller extends BaseController
@@ -28,29 +31,29 @@ class Controller extends BaseController
 
     public function index(Request $request) {
         $this->repository = $this->resolveRepository($request);
-        return $this->repository->all();
+        return $this->response($request, $this->repository->all());
     }
 
     public function show(Request $request, $id) {
         $this->repository = $this->resolveRepository($request);
-        return $this->repository->find($id);
+        return $this->response($request, $this->repository->find($id));
     }
 
     public function update(Request $request, $id) {
         $this->repository = $this->resolveRepository($request);
         $payload = $request->all();
-        return $this->repository->update($payload, $id);
+        return $this->response($request, $this->repository->update($payload, $id));
     }
 
     public function store(Request $request) {
         $this->repository = $this->resolveRepository($request);
         $payload = $request->all();
-        return $this->repository->create($payload);
+        return $this->response($request, $this->repository->create($payload));
     }
 
     public function destroy(Request $request, $id) {
         $this->repository = $this->resolveRepository($request);
-        $this->repository->delete($id);
+        return $this->response($request, $this->repository->delete($id));
     }
 
     protected function resolveRepository(Request $request) {
@@ -59,6 +62,19 @@ class Controller extends BaseController
 
     protected function resolveEntity(Request $request) {
         return app($this->entityNameSpace.$request->attributes->get('rigger_entity'));
+    }
+
+    protected function response($request, $data, TransformerAbstract $transformer = null) {
+        $response = fractal();
+        if (! $transformer) {
+            $transformer = new Transformer();
+        }
+        if(is_array($data) || $data instanceof Collection) {
+            $response->collection($data, $transformer);
+        } else {
+            $response->item($data, $transformer);
+        }
+        return $response->parseIncludes($request->input('include'))->toArray();
     }
 
 }

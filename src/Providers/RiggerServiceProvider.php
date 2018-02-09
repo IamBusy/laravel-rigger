@@ -55,6 +55,7 @@ class RiggerServiceProvider extends ServiceProvider
                 $table = array_key_exists('table', $config)? $config['table']:Str::plural(Str::lower($name));
                 $entity = new Entity($parameters);
                 $entity->setTable($table);
+                $entity->setEntityName($name);
             }
             return $entity;
         });

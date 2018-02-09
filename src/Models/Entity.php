@@ -9,9 +9,11 @@
 namespace WilliamWei\LaravelRigger\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Entity extends Model
 {
+    use Attributes;
 
     /*
     |--------------------------------------------------------------------------
@@ -23,6 +25,11 @@ class Entity extends Model
     */
     protected static $_table;
 
+    // Key in entities.php
+    protected $entityName;
+
+    protected $availableRelations;
+
     public function setTable($table)
     {
         static::$_table = $table;
@@ -31,5 +38,30 @@ class Entity extends Model
     public function getTable()
     {
         return static::$_table;
+    }
+
+    public function setEntityName($name) {
+        $this->entityName = $name;
+    }
+
+
+    /**
+     * Generate relation from configuration automatically
+     * @param $key
+     * @return mixed
+     */
+    public function getRelationFromRigger($key) {
+        $cfg = config("entities.". Str::singular(static::getTable()));
+        foreach (['hasOne', 'belongsTo', 'hasMany', 'belongsToMany'] as $item) {
+            if (array_key_exists($item, $cfg)) {
+                foreach ($cfg[$item] as $relation) {
+                    if (is_array($relation) && count($relation) && $relation[0] == $key){
+                        return call_user_func_array([$this, $item], $relation);
+                    } elseif ((!is_array($relation) && $relation == $key)) {
+                        return call_user_func_array([$this, $item], [$relation]);
+                    }
+                }
+            }
+        }
     }
 }
