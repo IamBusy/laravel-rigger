@@ -21,6 +21,18 @@ return [
 
         /*
         |--------------------------------------------------------------------------
+        | Query
+        |--------------------------------------------------------------------------
+        |
+        | Reference https://github.com/andersao/l5-repository#using-the-requestcriteria
+        |
+        */
+        'searchableFields'    =>  [
+            'name'  =>  'like',
+        ],
+
+        /*
+        |--------------------------------------------------------------------------
         | Relations
         |--------------------------------------------------------------------------
         |
@@ -35,7 +47,7 @@ return [
         | All these defines are consistent to the doc in https://laravel.com/docs/5.5/eloquent-relationships
         */
         'hasOne'    =>  [],
-        'belongsTo' =>  [],
+        'belongsTo' =>  ['role'],
         'hasMany'   =>  [],
         'belongsToMany' =>  [],
 

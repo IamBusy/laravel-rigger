@@ -22,6 +22,11 @@ class EntityRepository extends BaseRepository
         $this->modelName = $name;
     }
 
+    public function setFieldsSearchable(array $fields)
+    {
+        $this->fieldSearchable = $fields;
+    }
+
     /**
      * Specify Model class name
      *
