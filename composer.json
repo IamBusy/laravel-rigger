@@ -25,7 +25,7 @@
     "laravel": {
       "providers": [
         "WilliamWei\\LaravelRigger\\Providers\\LaravelRiggerProvider",
-        "WilliamWei\\LaravelRigger\\Providers\\RiggerServiceProvider",
+        "WilliamWei\\LaravelRigger\\Providers\\RiggerServiceProvider"
       ],
       "aliases": {
       }
