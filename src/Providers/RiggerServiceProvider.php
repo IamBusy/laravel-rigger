@@ -28,7 +28,7 @@ class RiggerServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->entityNameSpace = 'App\\'.$this->app['config']->get('rigger.paths.models', 'Entities').'\\';
-        $this->repositoryNameSpace = 'App\\'.$this->app['config']->get('rigger.paths.repository', 'Entities').'\\';
+        $this->repositoryNameSpace = 'App\\'.$this->app['config']->get('rigger.paths.repositories', 'Repositories').'\\';
         foreach ($this->app['config']->get('entities', []) as $name => $config) {
             $className = Str::ucfirst($name);
             $this->bindEntity($className, $config);
@@ -47,7 +47,7 @@ class RiggerServiceProvider extends ServiceProvider
     }
 
     protected function bindEntity($name, $config) {
-        $className = $this->repositoryNameSpace.$name;
+        $className = $this->entityNameSpace.$name;
         $this->app->bindIf($className, function ($app, $parameters) use ($className, $name, $config) {
             if(class_exists($className)) {
                 $entity = new $className($parameters);

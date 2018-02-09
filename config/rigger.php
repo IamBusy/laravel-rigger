@@ -10,7 +10,10 @@ return [
 
     'api'   =>  [
         'prefix'    =>  env('RIGGER_API_PREFIX','rigger'),
-        'middlewares'   =>  [],
+        'middlewares'   =>  [
+            'api',
+            \WilliamWei\LaravelRigger\Middlewares\ExtractEntity::class,
+        ],
     ],
 
     'paths'  =>  [
