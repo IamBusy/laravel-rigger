@@ -10,11 +10,17 @@ namespace WilliamWei\LaravelRigger\Models;
 
 
 use Illuminate\Database\Eloquent\Concerns\HasAttributes;
+use Illuminate\Support\Str;
 
 trait Attributes
 {
     use HasAttributes;
 
+    /**
+     * Override to support dynamic relation
+     * @param string $key
+     * @return mixed
+     */
     public function getRelationValue($key)
     {
         // If the key already exists in the relationships array, it just means the
@@ -35,6 +41,32 @@ trait Attributes
             return $this->getRelationFromRigger($key);
         }
     }
+
+
+    /**
+     * Generate relation from configuration automatically
+     * @param $key
+     * @return mixed
+     */
+    public function getRelationFromRigger($key) {
+        $cfg = config("entities.". Str::singular($this->getTable()));
+        foreach (['hasOne', 'belongsTo', 'hasMany', 'belongsToMany'] as $item) {
+            if (array_key_exists($item, $cfg)) {
+                foreach ($cfg[$item] as $relation) {
+                    if (is_array($relation) && count($relation) && $relation[0] == $key){
+                        return call_user_func_array([$this, $item], $relation);
+                    } elseif ((!is_array($relation) && $relation == $key)) {
+                        return call_user_func_array([$this, $item], [$relation]);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * @return string
+     */
+    abstract public function getTable();
 
 
 }

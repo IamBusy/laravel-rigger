@@ -31,6 +31,7 @@ return [
             'name'  =>  'like',
         ],
 
+
         /*
         |--------------------------------------------------------------------------
         | Relations
@@ -88,10 +89,9 @@ return [
     ],
 
     'role'  =>  [
-
+        'belongsToMany'   =>  [['permissions', 'role_has_permissions']],
     ],
 
-    'permissions'   =>  [
-
+    'permission'   =>  [
     ]
 ];
