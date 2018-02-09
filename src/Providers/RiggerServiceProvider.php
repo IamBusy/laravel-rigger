@@ -67,8 +67,8 @@ class RiggerServiceProvider extends ServiceProvider
             $repository = new EntityRepository($app);
             $repository->setModelName($this->entityNameSpace.$name);
             $repository->resetModel();
-            $repository->setFieldsSearchable(array_key_exists('searchable', $config)?
-                $config['searchable']:[]);
+            $repository->setFieldsSearchable(array_key_exists('searchableFields', $config)?
+                $config['searchableFields']:[]);
             return $repository;
         });
     }
