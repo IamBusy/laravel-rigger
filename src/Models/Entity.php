@@ -136,7 +136,6 @@ class Entity extends Model
         } else {
             $instance = app($class);
         }
-        //dd($instance->getTable());
         return tap($instance, function ($instance) {
             if (! $instance->getConnectionName()) {
                 $instance->setConnection($this->connection);
