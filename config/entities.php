@@ -31,6 +31,12 @@ return [
             'name'  =>  'like',
         ],
 
+        // If the key not exist, all the relations will be available to include
+        'availableIncludes' =>  [
+            'roles',
+            'permissions',
+        ],
+
 
         /*
         |--------------------------------------------------------------------------
@@ -48,9 +54,12 @@ return [
         | All these defines are consistent to the doc in https://laravel.com/docs/5.5/eloquent-relationships
         */
         'hasOne'    =>  [],
-        'belongsTo' =>  ['role'],
+        'belongsTo' =>  [],
         'hasMany'   =>  [],
-        'belongsToMany' =>  [],
+        'belongsToMany' =>  [
+            ['users', 'model_has_roles', 'model_id', 'role_id'],
+            ['permissions', 'model_has_permissions', 'model_id', 'permission_id'],
+        ],
 
         /*
         |--------------------------------------------------------------------------
@@ -89,9 +98,16 @@ return [
     ],
 
     'role'  =>  [
-        'belongsToMany'   =>  [['permissions', 'role_has_permissions']],
+        'belongsToMany'   =>  [
+            ['permissions', 'role_has_permissions'],
+            ['users', 'model_has_roles', 'role_id', 'model_id'],
+        ],
     ],
 
     'permission'   =>  [
+        'belongsToMany'   =>  [
+            ['roles', 'role_has_permissions', 'permission_id', 'role_id'],
+            ['users', 'model_has_permissions', 'permission_id', 'model_id'],
+        ],
     ]
 ];
