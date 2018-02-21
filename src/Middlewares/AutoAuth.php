@@ -29,7 +29,7 @@ class AutoAuth
         if($router && $router->action) {
             $action = explode('@',$router->action['controller'])[1];
             $resource = $request->attributes->get('rigger_entity');
-            $this->auth($request, $action, $resource);
+            $this->auth($request, $action, lcfirst($resource));
         }
         return $next($request);
     }

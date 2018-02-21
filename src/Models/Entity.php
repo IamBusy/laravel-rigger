@@ -9,7 +9,6 @@
 namespace WilliamWei\LaravelRigger\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Str;
 use Symfony\Component\Translation\Exception\InvalidArgumentException;
 
@@ -61,6 +60,7 @@ class Entity extends Model
             return $this->getRelationshipFromMethod($key);
         }
 
+        // If the model has getRelationshipFromRigger method, then call it
         if (method_exists($this, 'getRelationshipFromRigger')) {
             return $this->getRelationshipFromRigger($key);
         }
