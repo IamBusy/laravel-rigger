@@ -139,6 +139,33 @@ in the array can be parsed even though they defined in relations.
 
 
 ### Authenticate and Authorize
-TODO
+Rigger use [spatie/laravel-permission](https://github.com/spatie/laravel-permission) as basic validator.
+There are three control layers in rigger: global layer, entity layer and action layer.
+In every layer, there exist two key words `authorize` and `authenticate` to control the behaviour.
+`authorize` describes which permissions or roles are needed, and `authenticate` determines whether the user need to
+login.
+
+#### authenticate
+Only `true` of `false` can be set
+
+#### authorize
+```php
+'authorized'    =>  [
+    'role'          =>  'admin',
+    'permission'    =>  'update-user'
+]
+```
+
+`role` and `permission` are supported. You can alse set placeholder
+`${action}` `${resource}` in the permission. For example, if you set `permission`
+as `${action}-${resource}` in user item, when visiting `GET /users`, permssion `index-user` will
+be required.
+
+
+#### three control layers
+When visiting a specific action, it will check whether this resource has a detailed action-control,
+if so, then parse it. If not, it will use entity-control. However, if entity-control doesn't exist,
+global-control will active which located in `rigger.php`
+
 
 

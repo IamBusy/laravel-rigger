@@ -90,10 +90,7 @@ return [
         |   ]
         |  This config will override the same key in entity if there exist
         */
-        'authenticated' =>  false,
-
-        'authorized'    =>  '${action}-${resource}',
-
+        'authenticated' =>  true,
 
     ],
 
@@ -101,6 +98,12 @@ return [
         'belongsToMany'   =>  [
             ['permissions', 'role_has_permissions'],
             ['users', 'model_has_roles', 'role_id', 'model_id'],
+        ],
+
+        'authenticated' =>  true,
+
+        'authorized'    =>  [
+            'permission'  =>  '${action}-${resource}'
         ],
     ],
 
