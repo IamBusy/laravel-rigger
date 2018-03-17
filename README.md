@@ -6,14 +6,14 @@ based on a few necessary configuration, which describe the entities and relation
 
 
 # Table of contents
-- <a href="#Installation">Installation</a>
-    - <a href="#Composer">Composer</a>
-    - <a href="#Laravel">Laravel</a>
-- <a href="#Entity Description">Entity Description</a>
-    - <a href="#Relations">Relations</a>
-    - <a href="#Query">Query</a>
-    - <a href="#Include">Include</a>
-    - <a href="#Authenticate and Authorize">Authenticate and Authorize</a>
+- <a href="#installation">Installation</a>
+    - <a href="#composer">Composer</a>
+    - <a href="#laravel">Laravel</a>
+- <a href="#entity-description">Entity Description</a>
+    - <a href="#relations">Relations</a>
+    - <a href="#query">Query</a>
+    - <a href="#include">Include</a>
+    - <a href="#authenticate-and-authorize">Authenticate and Authorize</a>
 
 
 ## Installation
