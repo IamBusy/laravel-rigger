@@ -14,6 +14,7 @@ return [
             'api',
             \WilliamWei\LaravelRigger\Middlewares\ExtractEntity::class,
             \WilliamWei\LaravelRigger\Middlewares\AutoAuth::class,
+            \WilliamWei\LaravelRigger\Middlewares\AppenUID::class,
         ],
     ],
 
