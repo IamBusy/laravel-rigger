@@ -14,6 +14,7 @@ use Symfony\Component\Translation\Exception\InvalidArgumentException;
 
 class Entity extends Model
 {
+    protected $guarded = [];
 
     /*
     |--------------------------------------------------------------------------
