@@ -23,16 +23,16 @@ class ExtractEntity
      */
     public function handle($request, \Closure $next)
     {
-        $parts = explode('/', $request->path());
-        if(strlen(config('rigger.api.prefix', '')) > 0) {
-            if(count($parts) > 1) {
-                $name = $parts[1];
-            } else {
-                throw new NotFoundResourceException();
-            }
-        } else {
-            $name = $parts[0];
+        $path = $request->path();
+        if (strlen(config('rigger.api.prefix', '')) > 0) {
+            $startPos = strpos($path, config('rigger.api.prefix'));
+            $path = substr($path, $startPos + strlen(config('rigger.api.prefix')) + 1);
         }
+        $parts = explode('/', $path);
+        if (count($parts) == 0) {
+            throw new NotFoundResourceException();
+        }
+        $name = $parts[0];
         // Upper the first char of entity name in url
         $request->attributes->set('rigger_entity', Str::ucfirst(Str::singular($name)));
         return $next($request);
