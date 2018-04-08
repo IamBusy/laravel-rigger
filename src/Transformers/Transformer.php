@@ -47,7 +47,7 @@ class Transformer extends TransformerAbstract
         $entityCfg = config("entities.$this->table");
         if (! $entityCfg) {
             foreach (config('entities') as $entity) {
-                if (array_key_exists('table', $entity) && $entity['table'] == $this->table) {
+                if (array_key_exists('table', $entity) && Str::singular($entity['table']) == $this->table) {
                     $entityCfg = $entity;
                     break;
                 }
