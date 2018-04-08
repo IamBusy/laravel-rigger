@@ -45,6 +45,14 @@ class Transformer extends TransformerAbstract
             return $this->availableIncludes;
         }
         $entityCfg = config("entities.$this->table");
+        if (! $entityCfg) {
+            foreach (config('entities') as $entity) {
+                if (array_key_exists('table', $entity) && $entity['table'] == $this->table) {
+                    $entityCfg = $entity;
+                    break;
+                }
+            }
+        }
         if (array_key_exists('availableIncludes', $entityCfg)) {
             $this->availableIncludes = $entityCfg['availableIncludes'];
         } else {
